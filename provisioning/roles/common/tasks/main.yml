@@ -71,6 +71,7 @@
     - sudo
     - zlib-devel
     - wget
+    - tree
 
 - name: Restart and enable firewalld
   become: yes
