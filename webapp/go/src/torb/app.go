@@ -201,6 +201,53 @@ func getLoginAdministrator(c echo.Context) (*Administrator, error) {
 	return &administrator, err
 }
 
+func getEventsInfo() ([]*Event, error) {
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Commit()
+	var events []*Event
+	rows, err := tx.Query(`
+	SELECT
+	e.id as id
+	, e.title
+	, e.public_fg as public_fg
+	, e.closed_fg as closed_fg
+	, e.price as price
+	, 1000 - count(r.id) as remains
+	FROM
+	events as e
+	left join reservations as r on e.id = r.event_id
+	WHERE
+	e.public_fg
+	AND r.canceled_at IS NULL
+	group by
+	e.id
+	, e.title
+	, e.public_fg
+	, e.closed_fg
+	, e.price
+	ORDER BY e.id ASC`)
+	defer rows.Close()
+
+	for rows.Next() {
+		var event Event
+		if err := rows.Scan(&event.ID, &event.Title, &event.PublicFg, &event.ClosedFg, &event.Price, &event.Remains); err != nil {
+			return nil, err
+		}
+		event.Sheets =  map[string]*Sheets{
+			"S": &Sheets{Price: sheetPrice["S"], Total: int(sheetPrice["S"] + event.Price)},
+			"A": &Sheets{Price: sheetPrice["A"], Total: int(sheetPrice["A"] + event.Price)},
+			"B": &Sheets{Price: sheetPrice["B"], Total: int(sheetPrice["B"] + event.Price)},
+			"C": &Sheets{Price: sheetPrice["C"], Total: int(sheetPrice["c"] + event.Price)},
+		}
+		event.Total = 1000
+		events = append(events, &event)
+	}
+	return events, nil
+}
+
 func getEvents(all bool) ([]*Event, error) {
 	tx, err := db.Begin()
 	if err != nil {
@@ -375,7 +422,8 @@ func main() {
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{Output: os.Stderr}))
 	e.Static("/", "public")
 	e.GET("/", func(c echo.Context) error {
-		events, err := getEvents(false)
+		//events, err := getEvents(false)
+		events, err := getEventsInfo()
 		if err != nil {
 			return err
 		}
