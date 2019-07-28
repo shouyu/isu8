@@ -70,6 +70,7 @@
     - readline-devel
     - sudo
     - zlib-devel
+    - wget
 
 - name: Restart and enable firewalld
   become: yes
@@ -94,3 +95,17 @@
   file:
     path=/home/isucon/local
     state=directory
+
+- name: install percona toolkit
+  become: yes
+  become_user: root
+  yum:
+    name: https://www.percona.com/downloads/percona-toolkit/3.0.13/binary/redhat/7/x86_64/percona-toolkit-3.0.13-1.el7.x86_64.rpm
+
+- name: install alp
+  become: yes
+  become_user: root
+  shell: |
+    wget https://github.com/tkuchiki/alp/releases/download/v0.4.0/alp_linux_amd64.zip
+    unzip alp_linux_amd64.zip
+    mv ./alp /usr/local/bin/
