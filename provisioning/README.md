@@ -18,6 +18,19 @@ $ vim roles/prepare_bench/files/torb.bench.service
 $ ansible-playbook -i development site.yml
 ```
 
+## 追記:
+
+
+ベンチ実行:
+
+ssh で ベンチサーバーに入る
+```
+sudo su - isucon
+cd 
+cd torb/bench/
+bin/bench -remotes webサーバーのip
+```
+
 ### メモ
 
 - コメントアウトを外しているホストが、プロビジョニング対象になる。
@@ -63,3 +76,4 @@ $ vim production
 #=> [bench]のブロックで指定されているホストのコメントアウトを外す
 $ time ansible-playbook -i production deploy_bench_binary.yml
 ```
+

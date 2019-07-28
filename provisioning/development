@@ -1,17 +1,16 @@
 [portal_web]
-3.112.252.118
+# いらない
 
 [bench]
-52.195.12.87
+bench server!!!
 
 
 [webapp1]
-52.194.212.183
+web serve!!!
 
 
 [webapp2]
-#
-
+# なくてもいい
 
 [webapp3]
-# 競技用webappをデプロイするサーバ(3)
+# なくてもいい
