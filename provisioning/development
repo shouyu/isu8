@@ -1,18 +1,16 @@
 [portal_web]
-# ポータルをデプロイするサーバ
-
+# いらない
 
 [bench]
-# ベンチマーカをデプロイするサーバ
+bench server!!!
 
 
 [webapp1]
-# 競技用webappをデプロイするサーバ(1)
+web serve!!!
 
 
 [webapp2]
-# 競技用webappをデプロイするサーバ(2)
-
+# なくてもいい
 
 [webapp3]
-# 競技用webappをデプロイするサーバ(3)
+# なくてもいい
