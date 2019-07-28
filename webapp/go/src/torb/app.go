@@ -93,7 +93,7 @@ var (
 		"C": 0,
 	}
 
-	sheetNum = map[string]int64{
+	sheetNum = map[string]int{
 		"S": 50,
 		"A": 150,
 		"B": 300,
@@ -237,10 +237,10 @@ func getEventsInfo() ([]*Event, error) {
 			return nil, err
 		}
 		event.Sheets =  map[string]*Sheets{
-			"S": &Sheets{Price: sheetPrice["S"], Total: int(sheetPrice["S"] + event.Price)},
-			"A": &Sheets{Price: sheetPrice["A"], Total: int(sheetPrice["A"] + event.Price)},
-			"B": &Sheets{Price: sheetPrice["B"], Total: int(sheetPrice["B"] + event.Price)},
-			"C": &Sheets{Price: sheetPrice["C"], Total: int(sheetPrice["c"] + event.Price)},
+			"S": &Sheets{Price: sheetPrice["S"] + event.Price, Total: sheetNum["S"]},
+			"A": &Sheets{Price: sheetPrice["A"] + event.Price, Total: sheetNum["A"]},
+			"B": &Sheets{Price: sheetPrice["B"] + event.Price, Total: sheetNum["B"]},
+			"C": &Sheets{Price: sheetPrice["C"] + event.Price, Total: sheetNum["C"]},
 		}
 		event.Total = 1000
 		events = append(events, &event)
