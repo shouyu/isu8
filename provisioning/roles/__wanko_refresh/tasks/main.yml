@@ -1,0 +1,8 @@
+---
+- name: Refresh access log
+  become: yes
+  become_user: root
+  command: make clean
+  args:
+    chdir:
+      /home/isucon/torb/webapp/

@@ -1,0 +1,23 @@
+---
+- name: Setup my.cnf
+  become: yes
+  become_user: root
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK mariadb"
+    dest: /etc/my.cnf
+    content: |
+      [mysqld]
+      sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+      general_log=1
+      general_log_file=/var/log/mariadb/general.log
+      slow_query_log=1
+      slow_query_log_file=/var/log/mariadb/slow.log
+      long_query_time=0.1
+
+- name: Restart mariadb
+  become: yes
+  become_user: root
+  systemd:
+    name: mariadb
+    state: restarted
+    daemon_reload: yes

@@ -3,5 +3,7 @@
   roles:
     - deploy_webapp
     - prepare_webapp
+    - __wanko_setup
     - initialize_db
     - start_go_webapp
+    - __wanko_refresh
